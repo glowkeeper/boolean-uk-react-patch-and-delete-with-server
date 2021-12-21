@@ -25,7 +25,7 @@
     {
       "id": 1,
       "tourId": 1,
-      "email": "steve@mail.com",
+      "email": "rico@mail.com",
       "quantity": 4,
       "date": "2021-12-14T12:34:47"
     },
@@ -33,7 +33,7 @@
       "id": 2,
       "tourId": 3,
       "email": "rico@mail.com",
-      "quantity": 1,
+      "quantity": "1",
       "date": "2021-12-14T12:34:47"
     }
   ]

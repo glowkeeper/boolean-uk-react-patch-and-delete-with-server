@@ -1,54 +1,60 @@
-import { useEffect, useState } from "react"
 import { Route, Routes } from "react-router"
 import { Link } from "react-router-dom"
-import CreateTourPage from "./tours/CreateTour"
-import Dashboard from "./Dashboard"
-import TicketsSummary from "./tickets/Summary"
-import EditTourPage from "./tours/EditTour"
 
-function AdminRouter() {
-  const [tours, setTours] = useState([])
+import Dashboard from "./components/Dashboard"
+import CreateTourPage from "./components/tours/CreateTour"
+import EditTourPage from "./components/tours/EditTour"
+import TicketsList from "../components/TicketsList"
 
-  console.log({ tours })
+import { LocalRoutes, UIText } from "../../config.js"
 
-  useEffect(() => {
-    fetch("http://localhost:3030/tours")
-      .then(res => res.json())
-      .then(data => setTours(data))
-  }, [])
+function AdminRouter (props) {
+  const { tours, setTours, tickets } = props
 
   return (
     <>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/admin/">Admin Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/admin/tours/create">Create a Tour</Link>
-            </li>
-            <li>
-              <Link to="/admin/tickets/summary">Tickets Summary</Link>
-            </li>
-            <li>
-              <Link to="/">User Pages</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <Routes>
-        <Route path="/" element={<Dashboard tours={tours} />} />
-        <Route
-          path="/tours/create"
-          element={<CreateTourPage tours={tours} setTours={setTours} />}
-        />
-        <Route
-          path="/tours/:id/edit"
-          element={<EditTourPage tours={tours} setTours={setTours} />}
-        />
-        <Route path="tickets/summary" element={<TicketsSummary />} />
-      </Routes>
+      <h2>{UIText.adminPages}</h2>
+      <nav>
+        <ul>
+          <li>
+            <Link to={LocalRoutes.home}>{UIText.userHome}</Link>
+          </li>
+          <li>
+            <Link to={LocalRoutes.admin}>{UIText.dashboard}</Link>
+          </li>
+          <li>
+            <Link to={LocalRoutes.adminToursCreate}>{UIText.tourCreate}</Link>
+          </li>
+          <li>
+            <Link to={LocalRoutes.adminTicketsSummary}>{UIText.tickets}</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <main>
+
+        <Routes>
+          <Route path={LocalRoutes.adminHome} element={<Dashboard tours={tours} />} />
+          <Route
+            path={LocalRoutes.adminToursCreate}
+            element={<CreateTourPage tours={tours} setTours={setTours} />}
+          />
+          <Route
+            path={LocalRoutes.adminToursEditWithId}
+            element={<EditTourPage tours={tours} setTours={setTours} />}
+          />
+          <Route
+            path={LocalRoutes.adminTicketsSummary}
+            element={
+              <TicketsList
+                tickets={tickets}
+                isSummary={true}
+              />
+            }
+          />
+        </Routes>
+
+      </main>
     </>
   )
 }
